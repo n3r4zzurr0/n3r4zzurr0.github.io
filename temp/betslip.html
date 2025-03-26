@@ -56,7 +56,8 @@
 <body>
   <div class="container">
     <div class="top">
-      <div>v: 6</div>
+      <button id="fullscreen">Full Screen</button>
+      <div>v: 7</div>
       <div class="info">
         <div>Window Size: <span id="window-size"></span></div>
         <div>Viewport Size: <span id="viewport-size"></span></div>
@@ -87,10 +88,37 @@
     return /Mobi/i.test(window.navigator.userAgent);
   };
 
+  const toggleFullScreen = (exit = false) => {
+    const elem = document.documentElement;
+    if (exit && !document.fullscreenElement) {
+      return;
+    }
+    if (document.fullscreenElement) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document).webkitExitFullscreen) { // Safari
+        (document).webkitExitFullscreen();
+      } else if ((document).msExitFullscreen) { // IE11
+        (document).msExitFullscreen();
+      }
+    } else {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if ((elem).webkitRequestFullscreen) { // Safari
+        (elem).webkitRequestFullscreen();
+      } else if ((elem).msRequestFullscreen) { // IE11
+        (elem).msRequestFullscreen();
+      }
+    }
+  };
+
+  const fullscreenBtn = document.querySelector("#fullscreen");
   const windowSize = document.querySelector("#window-size");
   const viewportSize = document.querySelector("#viewport-size");
   const parentWindowSize = document.querySelector("#parent-window-size");
   const parentViewportSize = document.querySelector("#parent-viewport-size");
+
+  fullscreenBtn.onclick = () => toggleFullScreen();
 
   const test = [
     document.querySelector("#main"),
