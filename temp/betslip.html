@@ -56,11 +56,11 @@
 <body>
   <div class="container">
     <div class="top">
-      <div>v: 4</div>
+      <div>v: 5</div>
       <div class="info">
         <div>Window Size: <span id="window-size"></span></div>
         <div>Viewport Size: <span id="viewport-size"></span></div>
-        <div>Screen Size: <span id="screen-size"></span></div>
+        <div>Parent Viewport Size: <span id="parent-viewport-size">n/a</span></div>
       </div>
     </div>
     <div class="betslip">
@@ -88,7 +88,7 @@
 
   const windowSize = document.querySelector("#window-size");
   const viewportSize = document.querySelector("#viewport-size");
-  const screenSize = document.querySelector("#screen-size");
+  const parentViewportSize = document.querySelector("#parent-viewport-size");
 
   const test = [
     document.querySelector("#main"),
@@ -129,6 +129,9 @@
     console.log(e);
     if(e.data.isFullscreen !== undefined) {
       isFullscreen = e.data.isFullscreen;
+    }
+    if(e.data.viewportSize !== undefined) {
+      parentViewportSize.innerText = e.data.viewportSize;
     }
   });
 
