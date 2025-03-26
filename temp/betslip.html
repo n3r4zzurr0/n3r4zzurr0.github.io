@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang='en' class=''>
+<head>
+  <meta charset='UTF-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content" />
+  <title>Test Betslip</title>
+
+  <meta name="robots" content="noindex">
+
+  <style>
+  * {
+    border-sizing: border-box;
+  }
+  body {
+    background: #000;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    font-family: monospace;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 30px);
+    padding: 15px;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 24px;
+  }
+  .betslip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: auto;
+  }
+  .betslip .input {
+    flex: 1;
+  }
+  .betslip .input:first-child, .betslip button {
+    flex: 0 0 100%;
+  }
+  input {
+    width: 100%;
+    background: #333;
+    height: 36px;
+    border: 0;
+    color: #fff;
+    text-indent: 12px;
+  }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="top">
+      <div>v: 0</div>
+      <div class="info">
+        <div>Window Size: <span id="window-size"></span></div>
+        <div>Viewport Size: <span id="viewport-size"></span></div>
+        <div>Screen Size: <span id="screen-size"></span></div>
+      </div>
+    </div>
+    <div class="betslip">
+      <div class="input" id="main">
+        <div style="padding:0 0 8px 8px">Wager Input</div>
+        <input type="number" id="test" />
+      </div>
+      <div class="input" id="main1">
+        <div style="padding:0 0 8px 8px">Multiplier</div>
+        <input type="number" id="test" />
+      </div>
+      <div class="input" id="main2">
+        <div style="padding:0 0 8px 8px">Autobet Count</div>
+        <input type="number" id="test" />
+      </div>
+      <button>PLAY</button>
+    </div>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </div>
+  
+  <script>
+  const isMobile = () => {
+    return /Mobi/i.test(window.navigator.userAgent);
+  };
+
+  const windowSize = document.querySelector("#window-size");
+  const viewportSize = document.querySelector("#viewport-size");
+  const screenSize = document.querySelector("#screen-size");
+
+  const test = [
+    document.querySelector("#main"),
+    document.querySelector("#main1"),
+    document.querySelector("#main2")
+  ];
+
+  let isFullscreen = false;
+  let occupied = null;
+
+  visualViewport.onresize = e => {
+    const vSize = Math.round(e.target.height);
+    const wSize = window.innerHeight;
+
+    viewportSize.innerText = vSize;
+    windowSize.innerText = wSize;
+    screenSize.innerText = screen.height;
+
+    if (isMobile() && isFullscreen) {
+      if (vSize < wSize) {
+        const sizeDiff = wSize - vSize;
+        test.forEach(elem => {
+          if (elem.contains(document.activeElement)) {
+            occupied = elem;
+            elem.style.position = "fixed";
+            elem.style.zIndex = 1000;
+            elem.style.bottom = "320px";
+          }
+        });
+      } else {
+        if (occupied) {
+          occupied.style = "";
+        }
+        occupied = null;
+      }
+    } else {
+      if (occupied) {
+        occupied.style = "";
+      }
+      occupied = null;
+    }
+  };
+
+  const forceUpdate = () => {
+    viewportSize.innerText = Math.round(visualViewport.height);
+    windowSize.innerText = window.innerHeight;
+    setTimeout(forceUpdate, 1000);
+  };
+
+  forceUpdate();
+
+  window.addEventListener("message", (e) => {
+    console.log(e);
+    if(e.data.isFullscreen !== undefined) {
+      isFullscreen = e.data.isFullscreen;
+    }
+  });
+  </script>
+</body>
+
+</html>
