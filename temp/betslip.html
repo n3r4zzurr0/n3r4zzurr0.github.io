@@ -57,12 +57,14 @@
   <div class="container">
     <div class="top">
       <button id="fullscreen">Full Screen</button>
-      <div>v: 7</div>
+      <div>v: 8</div>
       <div class="info">
         <div>Window Size: <span id="window-size"></span></div>
         <div>Viewport Size: <span id="viewport-size"></span></div>
+        <div>Viewport Top: <span id="viewport-top"></span></div>
         <div>Parent Window Size: <span id="parent-window-size">n/a</span></div>
         <div>Parent Viewport Size: <span id="parent-viewport-size">n/a</span></div>
+        <div>Parent Viewport Top: <span id="parent-viewport-top">n/a</span></div>
       </div>
     </div>
     <div class="betslip">
@@ -115,8 +117,10 @@
   const fullscreenBtn = document.querySelector("#fullscreen");
   const windowSize = document.querySelector("#window-size");
   const viewportSize = document.querySelector("#viewport-size");
+  const viewportSTop = document.querySelector("#viewport-top");
   const parentWindowSize = document.querySelector("#parent-window-size");
   const parentViewportSize = document.querySelector("#parent-viewport-size");
+  const parentViewportTop = document.querySelector("#parent-viewport-top");
 
   fullscreenBtn.onclick = () => toggleFullScreen();
 
@@ -148,6 +152,7 @@
   };
 
   const forceUpdate = () => {
+    viewportTop.innerText = Math.round(visualViewport.pageTop);
     viewportSize.innerText = Math.round(visualViewport.height);
     windowSize.innerText = window.innerHeight;
     setTimeout(forceUpdate, 1000);
@@ -165,6 +170,9 @@
     }
     if(e.data.windowSize !== undefined) {
       parentWindowSize.innerText = e.data.windowSize;
+    }
+    if(e.data.viewportTop !== undefined) {
+      parentViewportTop.innerText = e.data.viewportTop;
     }
   });
 
