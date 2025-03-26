@@ -56,12 +56,11 @@
 <body>
   <div class="container">
     <div class="top">
-      <div>v: 3</div>
+      <div>v: 4</div>
       <div class="info">
         <div>Window Size: <span id="window-size"></span></div>
         <div>Viewport Size: <span id="viewport-size"></span></div>
         <div>Screen Size: <span id="screen-size"></span></div>
-        <div>Scroll Trigger Count: <span id="scroll-trigger-count"></span></div>
       </div>
     </div>
     <div class="betslip">
@@ -90,7 +89,6 @@
   const windowSize = document.querySelector("#window-size");
   const viewportSize = document.querySelector("#viewport-size");
   const screenSize = document.querySelector("#screen-size");
-  const scrollTriggerCountText = document.querySelector("#scroll-trigger-count");
 
   const test = [
     document.querySelector("#main"),
@@ -99,7 +97,6 @@
   ];
 
   let isFullscreen = false;
-  let scrollTriggerCount = 0;
 
   const resetFocus = (e) => {
     console.log(e.target);
@@ -133,11 +130,6 @@
     if(e.data.isFullscreen !== undefined) {
       isFullscreen = e.data.isFullscreen;
     }
-  });
-
-  window.addEventListener("scroll", () => {
-    scrollTriggerCount ++;
-    scrollTriggerCountText.innerText = scrollTriggerCount;
   });
 
   document.addEventListener("focusin", resetFocus);
