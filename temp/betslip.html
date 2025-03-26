@@ -56,10 +56,11 @@
 <body>
   <div class="container">
     <div class="top">
-      <div>v: 5</div>
+      <div>v: 6</div>
       <div class="info">
         <div>Window Size: <span id="window-size"></span></div>
         <div>Viewport Size: <span id="viewport-size"></span></div>
+        <div>Parent Window Size: <span id="parent-window-size">n/a</span></div>
         <div>Parent Viewport Size: <span id="parent-viewport-size">n/a</span></div>
       </div>
     </div>
@@ -88,6 +89,7 @@
 
   const windowSize = document.querySelector("#window-size");
   const viewportSize = document.querySelector("#viewport-size");
+  const parentWindowSize = document.querySelector("#parent-window-size");
   const parentViewportSize = document.querySelector("#parent-viewport-size");
 
   const test = [
@@ -132,6 +134,9 @@
     }
     if(e.data.viewportSize !== undefined) {
       parentViewportSize.innerText = e.data.viewportSize;
+    }
+    if(e.data.windowSize !== undefined) {
+      parentWindowSize.innerText = e.data.windowSize;
     }
   });
 
