@@ -56,7 +56,7 @@
 <body>
   <div class="container">
     <div class="top">
-      <div>v: 2</div>
+      <div>v: 3</div>
       <div class="info">
         <div>Window Size: <span id="window-size"></span></div>
         <div>Viewport Size: <span id="viewport-size"></span></div>
@@ -99,39 +99,24 @@
   ];
 
   let isFullscreen = false;
-  let occupied = null;
   let scrollTriggerCount = 0;
 
-  visualViewport.onresize = e => {
-    const vSize = Math.round(e.target.height);
-    const wSize = window.innerHeight;
-
-    viewportSize.innerText = vSize;
-    windowSize.innerText = wSize;
-    screenSize.innerText = screen.height;
-
+  const resetFocus = (e) => {
+    console.log(e.target);
     if (isMobile() && isFullscreen) {
-      if (vSize < wSize) {
-        const sizeDiff = wSize - vSize;
-        test.forEach(elem => {
-          if (elem.contains(document.activeElement)) {
-            occupied = elem;
-            elem.style.position = "fixed";
-            elem.style.zIndex = 1000;
-            elem.style.bottom = "320px";
-          }
-        });
-      } else {
-        if (occupied) {
-          occupied.style = "";
+      test.forEach(elem => {
+        if (elem.contains(document.activeElement)) {
+          elem.style.position = "fixed";
+          elem.style.zIndex = 1000;
+          elem.style.bottom = "320px";
+        } else {
+          elem.style = "";
         }
-        occupied = null;
-      }
+      });
     } else {
-      if (occupied) {
-        occupied.style = "";
-      }
-      occupied = null;
+      test.forEach(elem => {
+        elem.style = "";
+      });
     }
   };
 
@@ -154,6 +139,9 @@
     scrollTriggerCount ++;
     scrollTriggerCountText.innerText = scrollTriggerCount;
   });
+
+  document.addEventListener("focusin", resetFocus);
+  document.addEventListener("focusout", resetFocus);
   </script>
 </body>
 
